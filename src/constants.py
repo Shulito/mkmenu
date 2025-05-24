@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from os import path
 from typing import Final, List, Tuple
 
@@ -33,18 +34,32 @@ CHARACTER_SELECTION_SCREEN_NAME: Final[str] = "CHARACTER_SELECTION"
 MAIN_MENU_BLINK_TOP_LEFT_COORD: Final[Tuple[int, int]] = (159, 225)
 BLINK_SPEED: Final[int] = 3
 
+
 # Character Selection constants
-CHARACTER_SELECTION_PORTRAITS: Final[List[Tuple[int, int, str]]] = [
-    (42, 54, "johnny"),
-    (109, 54, "kano"),
-    (109, 136, "raiden"),
-    (176, 136, "liukang"),
-    (243, 136, "scorpion"),
-    (243, 54, "subzero"),
-    (310, 54, "sonya"),
+@dataclass(frozen=True)
+class CharacterData:
+    folder_name: str
+    portrait_top_left_coord: Tuple[int, int]
+    idle_total_frames: int
+
+
+CHARACTER_SELECTION_PORTRAITS: Final[List[CharacterData]] = [
+    CharacterData("johnny", (42, 54), 7),
+    CharacterData("kano", (109, 54), 7),
+    CharacterData("raiden", (109, 136), 10),
+    CharacterData("liukang", (176, 136), 8),
+    CharacterData("scorpion", (243, 136), 7),
+    CharacterData("subzero", (243, 54), 12),
+    CharacterData("sonya", (310, 54), 7),
 ]
 
 PORTRAIT_ANIMATION_SPEED: Final[float] = 1.5
+
+BOX_ANIMATION_TOTAL_FRAMES: Final[int] = 2
+BOX_ANIMATION_FPS: Final[int] = 10
+
+IDLE_ANIMATION_BOTTOM_LEFT_COORD: Final[Tuple[int, int]] = (-30, 70)
+IDLE_ANIMATION_FPS: Final[int] = 10
 
 # Notification constants
 EXTRA_DATA_SCREEN_NAME: Final[str] = "SCREEN_NAME"

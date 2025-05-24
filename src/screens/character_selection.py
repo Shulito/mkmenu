@@ -1,12 +1,27 @@
+from dataclasses import dataclass
 from os import path
+from typing import List
 
 from src.animations import SpritesheetAnimation
-from src.constants import CHARACTER_SELECTION_FOLDER_PATH, CHARACTER_SELECTION_PORTRAITS
+from src.constants import (
+    BOX_ANIMATION_FPS,
+    BOX_ANIMATION_TOTAL_FRAMES,
+    CHARACTER_SELECTION_FOLDER_PATH,
+    CHARACTER_SELECTION_PORTRAITS,
+    IDLE_ANIMATION_BOTTOM_LEFT_COORD,
+    IDLE_ANIMATION_FPS,
+)
 from src.display import Display
 from src.interactions import Action, Interaction
 from src.notifications import Notification, NotificationSink
 from src.screens.base import GameScreen
 from src.screens.portrait import CharacterPortrait
+
+
+@dataclass(frozen=True)
+class PortraitAndIdle:
+    portrait: CharacterPortrait
+    idle_animation: SpritesheetAnimation
 
 
 class CharacterSelectionScreen(GameScreen):
@@ -18,39 +33,55 @@ class CharacterSelectionScreen(GameScreen):
             ),
         )
 
-        self._portraits = [
-            CharacterPortrait(
-                notification_sink=notification_sink,
-                file_path=path.join(
-                    CHARACTER_SELECTION_FOLDER_PATH, character_name, "portrait.png"
+        self._characters: List[PortraitAndIdle] = [
+            PortraitAndIdle(
+                CharacterPortrait(
+                    notification_sink=notification_sink,
+                    file_path=path.join(
+                        CHARACTER_SELECTION_FOLDER_PATH,
+                        character_data.folder_name,
+                        "portrait.png",
+                    ),
+                    top_left_coord=character_data.portrait_top_left_coord,
                 ),
-                top_left_coord=(top_left_x, top_left_y),
+                SpritesheetAnimation(
+                    file_path=path.join(
+                        CHARACTER_SELECTION_FOLDER_PATH,
+                        character_data.folder_name,
+                        "idle.png",
+                    ),
+                    total_frames=character_data.idle_total_frames,
+                    fps=IDLE_ANIMATION_FPS,
+                    coord=IDLE_ANIMATION_BOTTOM_LEFT_COORD,
+                ),
             )
-            for top_left_x, top_left_y, character_name in CHARACTER_SELECTION_PORTRAITS
+            for character_data in CHARACTER_SELECTION_PORTRAITS
         ]
 
         self._selection_box = SpritesheetAnimation(
             file_path=path.join(CHARACTER_SELECTION_FOLDER_PATH, "box.png"),
-            total_frames=2,
-            fps=10,
+            total_frames=BOX_ANIMATION_TOTAL_FRAMES,
+            fps=BOX_ANIMATION_FPS,
         )
 
         self._selected_character_idx = 0
-        self._portraits[self._selected_character_idx].select()
-        self._selection_box.rect.center = self._portraits[  # type: ignore
+        self._characters[self._selected_character_idx].portrait.select()
+        self._selection_box.rect.center = self._characters[  # type: ignore
             self._selected_character_idx
-        ].rect.center
+        ].portrait.rect.center
 
     def _move_selected_character(self, value: int) -> None:
-        self._portraits[self._selected_character_idx].deselect()
-        self._selected_character_idx = (self._selected_character_idx + value) % len(
-            self._portraits
-        )
-        self._portraits[self._selected_character_idx].select()
+        self._characters[self._selected_character_idx].portrait.deselect()
+        self._characters[self._selected_character_idx].idle_animation.reset()
 
-        self._selection_box.rect.center = self._portraits[  # type: ignore
+        self._selected_character_idx = (self._selected_character_idx + value) % len(
+            self._characters
+        )
+        self._characters[self._selected_character_idx].portrait.select()
+
+        self._selection_box.rect.center = self._characters[  # type: ignore
             self._selected_character_idx
-        ].rect.center
+        ].portrait.rect.center
 
     def handle_interaction(self, interaction: Interaction) -> None:
         if interaction.action == Action.MENU_RIGHT and interaction.just_pressed:
@@ -59,16 +90,18 @@ class CharacterSelectionScreen(GameScreen):
             self._move_selected_character(-1)
 
     def update(self, delta: float) -> None:
-        self._portraits[self._selected_character_idx].update(delta)
+        self._characters[self._selected_character_idx].portrait.update(delta)
+        self._characters[self._selected_character_idx].idle_animation.update(delta)
         self._selection_box.update(delta)
 
     def draw(self, display: Display) -> None:
         super().draw(display)
 
-        for portrait in self._portraits:
-            portrait.draw(display)
+        for character in self._characters:
+            character.portrait.draw(display)
 
         self._selection_box.draw(display)
+        self._characters[self._selected_character_idx].idle_animation.draw(display)
 
     def handle_notification(self, notification: Notification) -> None:
         return
