@@ -17,10 +17,10 @@ from src.interfaces import GameObject
 
 
 class GameScreen(GameObject, ABC):
-    def __init__(self, background_file_path: str) -> None:
+    def __init__(self, background_sprite_file_path: str) -> None:
         self._background_sprite = pygame.sprite.Sprite()
         self._background_sprite.image = load_image(
-            file_path=background_file_path,
+            file_path=background_sprite_file_path,
             has_transparency=False,
         )
         self._background_sprite.rect = self._background_sprite.image.get_rect(
@@ -38,7 +38,9 @@ class GameScreen(GameObject, ABC):
 class MainMenuScreen(GameScreen):
     def __init__(self) -> None:
         super().__init__(
-            background_file_path=path.join(MAIN_MENU_FOLDER_PATH, "background.png"),
+            background_sprite_file_path=path.join(
+                MAIN_MENU_FOLDER_PATH, "background.png"
+            ),
         )
 
         self._blink_sprite = pygame.sprite.Sprite()
@@ -87,7 +89,7 @@ class MainMenuScreen(GameScreen):
 class CharacterSelectionScreen(GameScreen):
     def __init__(self) -> None:
         super().__init__(
-            background_file_path=path.join(
+            background_sprite_file_path=path.join(
                 CHARACTER_SELECTION_FOLDER_PATH, "background.png"
             ),
         )
@@ -100,7 +102,6 @@ class CharacterSelectionScreen(GameScreen):
 
     def draw(self, display: Display) -> None:
         super().draw(display)
-        display.draw(self._background_sprite)
 
     def next_game_screen(self) -> GameScreen:
         return self
