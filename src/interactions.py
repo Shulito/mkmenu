@@ -16,9 +16,9 @@ class Action(Enum):
 @dataclass(frozen=True)
 class Interaction:
     action: Action
-    being_pressed: bool | None = None
-    just_pressed: bool | None = None
-    just_released: bool | None = None
+    being_pressed: bool = False
+    just_pressed: bool = False
+    just_released: bool = False
 
 
 EVENT_TO_ACTION_MAPPING: Final[Dict[int, Action]] = {
@@ -39,9 +39,9 @@ KEY_TO_ACTION_MAPPING: Final[Dict[int, Action]] = {
 def _add_interactions(
     interactions: Set[Interaction],
     keys: ScancodeWrapper,
-    being_pressed: bool | None = None,
-    just_pressed: bool | None = None,
-    just_released: bool | None = None,
+    being_pressed: bool = False,
+    just_pressed: bool = False,
+    just_released: bool = False,
 ) -> None:
     for key in KEY_TO_ACTION_MAPPING.keys():
         if keys[key]:
