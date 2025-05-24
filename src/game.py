@@ -11,9 +11,9 @@ class Game:
     def __init__(self) -> None:
         pygame.init()
 
-        self._clock: pygame.time.Clock = pygame.time.Clock()
+        self._clock = pygame.time.Clock()
 
-        self._display: Display = Display()
+        self._display = Display()
         self._notification_sink = NotificationSink()
         self._screen_manager = ScreenManager(self._notification_sink)
 
