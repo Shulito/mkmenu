@@ -1,6 +1,5 @@
-from typing import Tuple
-
 import pygame.sprite
+from pygame import FRect, Rect
 
 from src.animations.base import Animation
 from src.constants import ALPHA_MAX_VALUE, ALPHA_MIN_VALUE
@@ -18,12 +17,8 @@ class AlphaAnimation(Animation):
         self._alpha_percentage = 1.0
 
     @property
-    def center(self) -> Tuple[int, int]:
-        return self._sprite.rect.center  # type: ignore
-
-    @center.setter
-    def center(self, value: Tuple[int, int]) -> None:
-        self._sprite.rect.center = value  # type: ignore
+    def rect(self) -> FRect | Rect | None:
+        return self._sprite.rect
 
     def draw(self, display: Display) -> None:
         display.draw(self._sprite)

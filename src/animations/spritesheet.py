@@ -1,6 +1,7 @@
 from typing import List, Tuple
 
 import pygame.sprite
+from pygame import FRect, Rect
 
 from src.animations.base import Animation
 from src.assets import load_image
@@ -13,7 +14,7 @@ class SpritesheetAnimation(Animation):
         file_path: str,
         total_frames: int,
         fps: int,
-        coord: Tuple[int, int],
+        coord: Tuple[int, int] = (0, 0),
         has_transparency: bool = True,
     ) -> None:
         super().__init__()
@@ -43,12 +44,8 @@ class SpritesheetAnimation(Animation):
         self._sprite.rect = self._sprite.image.get_rect(topleft=coord)
 
     @property
-    def center(self) -> Tuple[int, int]:
-        return self._sprite.rect.center
-
-    @center.setter
-    def center(self, value: Tuple[int, int]) -> None:
-        self._sprite.rect.center = value
+    def rect(self) -> FRect | Rect | None:
+        return self._sprite.rect
 
     def reset(self) -> None:
         self._current_frame = 0

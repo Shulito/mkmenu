@@ -1,5 +1,7 @@
 from typing import Tuple
 
+from pygame import FRect, Rect
+
 from src.animations import AlphaAnimation
 from src.assets import load_sprite
 from src.base import GameObject
@@ -28,8 +30,8 @@ class CharacterPortrait(GameObject):
         )
 
     @property
-    def center(self) -> Tuple[int, int]:
-        return self._portrait_animation.center
+    def rect(self) -> FRect | Rect | None:
+        return self._portrait_animation.rect
 
     def select(self) -> None:
         self._portrait_animation.running = True

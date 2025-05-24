@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
-from typing import Tuple
+
+from pygame import FRect, Rect
 
 from src.base import Drawable, Updatable
 
@@ -18,12 +19,7 @@ class Animation(Drawable, Updatable, ABC):
 
     @property
     @abstractmethod
-    def center(self) -> Tuple[int, int]:
-        pass
-
-    @center.setter
-    @abstractmethod
-    def center(self, value: Tuple[int, int]) -> None:
+    def rect(self) -> FRect | Rect | None:
         pass
 
     @abstractmethod

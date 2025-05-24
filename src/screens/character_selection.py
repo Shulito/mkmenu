@@ -33,12 +33,13 @@ class CharacterSelectionScreen(GameScreen):
             file_path=path.join(CHARACTER_SELECTION_FOLDER_PATH, "box.png"),
             total_frames=2,
             fps=10,
-            coord=(42, 54),
         )
 
         self._selected_character_idx = 0
         self._portraits[self._selected_character_idx].select()
-        self._selection_box.center = self._portraits[self._selected_character_idx].center
+        self._selection_box.rect.center = self._portraits[  # type: ignore
+            self._selected_character_idx
+        ].rect.center
 
     def _move_selected_character(self, value: int) -> None:
         self._portraits[self._selected_character_idx].deselect()
@@ -47,7 +48,9 @@ class CharacterSelectionScreen(GameScreen):
         )
         self._portraits[self._selected_character_idx].select()
 
-        self._selection_box.center = self._portraits[self._selected_character_idx].center
+        self._selection_box.rect.center = self._portraits[  # type: ignore
+            self._selected_character_idx
+        ].rect.center
 
     def handle_interaction(self, interaction: Interaction) -> None:
         if interaction.action == Action.MENU_RIGHT and interaction.just_pressed:
