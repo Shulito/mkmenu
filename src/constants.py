@@ -37,12 +37,14 @@ BLINK_SPEED: Final[int] = 3
 CHARACTER_SELECTION_PORTRAITS: Final[List[Tuple[int, int, str]]] = [
     (42, 54, "johnny"),
     (109, 54, "kano"),
-    (243, 54, "subzero"),
-    (310, 54, "sonya"),
     (109, 136, "raiden"),
     (176, 136, "liukang"),
     (243, 136, "scorpion"),
+    (243, 54, "subzero"),
+    (310, 54, "sonya"),
 ]
+
+PORTRAIT_ANIMATION_SPEED: Final[float] = 1.5
 
 # Notification constants
 EXTRA_DATA_SCREEN_NAME: Final[str] = "SCREEN_NAME"

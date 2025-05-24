@@ -3,6 +3,7 @@ from typing import Tuple
 from src.animations import AlphaAnimation
 from src.assets import load_sprite
 from src.base import GameObject
+from src.constants import PORTRAIT_ANIMATION_SPEED
 from src.display import Display
 from src.interactions import Interaction
 from src.notifications import Notification, NotificationSink
@@ -23,16 +24,15 @@ class CharacterPortrait(GameObject):
                 top_left_coord=top_left_coord,
                 has_transparency=False,
             ),
-            speed=3,
+            speed=PORTRAIT_ANIMATION_SPEED,
         )
 
-        self._selected = False
-
     def select(self) -> None:
-        self._selected = True
+        self._portrait_animation.running = True
 
     def deselect(self) -> None:
-        self._selected = False
+        self._portrait_animation.running = False
+        self._portrait_animation.reset()
 
     def draw(self, display: Display) -> None:
         self._portrait_animation.draw(display)
@@ -41,7 +41,7 @@ class CharacterPortrait(GameObject):
         return
 
     def update(self, delta_ms: float) -> None:
-        return
+        self._portrait_animation.update(delta_ms)
 
     def handle_notification(self, notification: Notification) -> None:
         return
