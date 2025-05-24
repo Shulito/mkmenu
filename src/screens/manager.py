@@ -30,8 +30,8 @@ class ScreenManager(GameObject):
     def handle_interaction(self, interaction: Interaction) -> None:
         self._game_screen.handle_interaction(interaction)
 
-    def update(self, delta_ms: float) -> None:
-        self._game_screen.update(delta_ms)
+    def update(self, delta: float) -> None:
+        self._game_screen.update(delta)
 
     def handle_notification(self, notification: Notification) -> None:
         if notification.type == NotificationType.CHANGE_SCREEN:

@@ -1,5 +1,6 @@
 from os import path
 
+from src.animations import SpritesheetAnimation
 from src.constants import CHARACTER_SELECTION_FOLDER_PATH, CHARACTER_SELECTION_PORTRAITS
 from src.display import Display
 from src.interactions import Action, Interaction
@@ -28,6 +29,13 @@ class CharacterSelectionScreen(GameScreen):
             for top_left_x, top_left_y, character_name in CHARACTER_SELECTION_PORTRAITS
         ]
 
+        self._selection_box = SpritesheetAnimation(
+            file_path=path.join(CHARACTER_SELECTION_FOLDER_PATH, "box.png"),
+            total_frames=2,
+            fps=10,
+            coord=(42, 54),
+        )
+
         self._selected_character_idx = 0
         self._portraits[self._selected_character_idx].select()
 
@@ -44,14 +52,17 @@ class CharacterSelectionScreen(GameScreen):
         elif interaction.action == Action.MENU_LEFT and interaction.just_pressed:
             self._move_selected_character(-1)
 
-    def update(self, delta_ms: float) -> None:
-        self._portraits[self._selected_character_idx].update(delta_ms)
+    def update(self, delta: float) -> None:
+        self._portraits[self._selected_character_idx].update(delta)
+        self._selection_box.update(delta)
 
     def draw(self, display: Display) -> None:
         super().draw(display)
 
         for portrait in self._portraits:
             portrait.draw(display)
+
+        self._selection_box.draw(display)
 
     def handle_notification(self, notification: Notification) -> None:
         return

@@ -44,8 +44,8 @@ class MainMenuScreen(GameScreen):
                 )
             )
 
-    def update(self, delta_ms: float) -> None:
-        self._blink_animation.update(delta_ms)
+    def update(self, delta: float) -> None:
+        self._blink_animation.update(delta)
 
     def draw(self, display: Display) -> None:
         super().draw(display)

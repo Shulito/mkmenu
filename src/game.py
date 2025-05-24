@@ -24,7 +24,7 @@ class Game:
         running = True
 
         while running:
-            delta_ms = self._clock.tick(FPS) / 1000
+            delta = self._clock.tick(FPS) / 1000
 
             for interaction in get_interactions():
                 if interaction.action == Action.QUIT:
@@ -40,6 +40,6 @@ class Game:
             for notification in self._notification_sink.read_all():
                 self._screen_manager.handle_notification(notification)
 
-            self._screen_manager.update(delta_ms)
+            self._screen_manager.update(delta)
             self._screen_manager.draw(self._display)
             self._display.update()

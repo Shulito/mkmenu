@@ -7,7 +7,7 @@ from src.notifications import Notification, NotificationSink
 
 class Updatable(ABC):
     @abstractmethod
-    def update(self, delta_ms: float) -> None:
+    def update(self, delta: float) -> None:
         pass
 
 

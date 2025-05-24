@@ -18,11 +18,11 @@ class AlphaAnimation(Animation):
     def draw(self, display: Display) -> None:
         display.draw(self._sprite)
 
-    def update(self, delta_ms: float) -> None:
+    def update(self, delta: float) -> None:
         if not self.running:
             return
 
-        self._alpha_percentage += self._speed * self._alpha_direction * delta_ms
+        self._alpha_percentage += self._speed * self._alpha_direction * delta
 
         if self._alpha_percentage <= 0.0:
             self._alpha_percentage = 0.0

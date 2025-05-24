@@ -40,8 +40,8 @@ class CharacterPortrait(GameObject):
     def handle_interaction(self, interaction: Interaction) -> None:
         return
 
-    def update(self, delta_ms: float) -> None:
-        self._portrait_animation.update(delta_ms)
+    def update(self, delta: float) -> None:
+        self._portrait_animation.update(delta)
 
     def handle_notification(self, notification: Notification) -> None:
         return
