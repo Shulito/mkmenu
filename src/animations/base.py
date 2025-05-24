@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+from typing import Tuple
 
 from src.base import Drawable, Updatable
 
@@ -14,6 +15,16 @@ class Animation(Drawable, Updatable, ABC):
     @running.setter
     def running(self, value: bool) -> None:
         self._running = value
+
+    @property
+    @abstractmethod
+    def center(self) -> Tuple[int, int]:
+        pass
+
+    @center.setter
+    @abstractmethod
+    def center(self, value: Tuple[int, int]) -> None:
+        pass
 
     @abstractmethod
     def reset(self) -> None:

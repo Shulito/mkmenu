@@ -42,6 +42,14 @@ class SpritesheetAnimation(Animation):
         self._sprite.image = self._images[self._current_frame]
         self._sprite.rect = self._sprite.image.get_rect(topleft=coord)
 
+    @property
+    def center(self) -> Tuple[int, int]:
+        return self._sprite.rect.center
+
+    @center.setter
+    def center(self, value: Tuple[int, int]) -> None:
+        self._sprite.rect.center = value
+
     def reset(self) -> None:
         self._current_frame = 0
         self._accumulated_deltas = 0.0

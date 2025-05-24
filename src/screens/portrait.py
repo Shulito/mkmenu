@@ -27,6 +27,10 @@ class CharacterPortrait(GameObject):
             speed=PORTRAIT_ANIMATION_SPEED,
         )
 
+    @property
+    def center(self) -> Tuple[int, int]:
+        return self._portrait_animation.center
+
     def select(self) -> None:
         self._portrait_animation.running = True
 

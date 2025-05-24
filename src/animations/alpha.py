@@ -1,3 +1,5 @@
+from typing import Tuple
+
 import pygame.sprite
 
 from src.animations.base import Animation
@@ -14,6 +16,14 @@ class AlphaAnimation(Animation):
 
         self._alpha_direction = -1
         self._alpha_percentage = 1.0
+
+    @property
+    def center(self) -> Tuple[int, int]:
+        return self._sprite.rect.center  # type: ignore
+
+    @center.setter
+    def center(self, value: Tuple[int, int]) -> None:
+        self._sprite.rect.center = value  # type: ignore
 
     def draw(self, display: Display) -> None:
         display.draw(self._sprite)
