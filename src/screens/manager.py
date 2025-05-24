@@ -34,6 +34,7 @@ class ScreenManager(GameObject):
         self._game_screen.update(delta_ms)
 
     def handle_notification(self, notification: Notification) -> None:
-        match notification.type:
-            case NotificationType.CHANGE_SCREEN:
-                self._change_screen(notification.extra_data[EXTRA_DATA_SCREEN_NAME])
+        if notification.type == NotificationType.CHANGE_SCREEN:
+            self._change_screen(notification.extra_data[EXTRA_DATA_SCREEN_NAME])
+        else:
+            self._game_screen.handle_notification(notification)
