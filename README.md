@@ -22,3 +22,7 @@ Press `Esc` or click on the `X` button on the windows to close it.
 Press `Enter` to skip the main screen.
 
 Use the `->`, `<-`, `D` or `A` buttons to change the selected character.
+
+## Acknowledgements
+
+Sprites downloaded from https://www.spriters-resource.com/.
