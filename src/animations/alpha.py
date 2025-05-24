@@ -11,9 +11,8 @@ class AlphaAnimation(Animation):
         super().__init__()
 
         self._sprite = sprite
-        self._speed = speed
+        self._speed = -abs(speed)
 
-        self._alpha_direction = -1
         self._alpha_percentage = 1.0
 
     @property
@@ -27,14 +26,14 @@ class AlphaAnimation(Animation):
         if not self.running:
             return
 
-        self._alpha_percentage += self._speed * self._alpha_direction * delta
+        self._alpha_percentage += self._speed * delta
 
         if self._alpha_percentage <= 0.0:
+            self._speed *= -1
             self._alpha_percentage = 0.0
-            self._alpha_direction = 1
         elif self._alpha_percentage >= 1.0:
+            self._speed *= -1
             self._alpha_percentage = 1.0
-            self._alpha_direction = -1
 
         self._sprite.image.set_alpha(  # type: ignore
             int(
@@ -45,6 +44,6 @@ class AlphaAnimation(Animation):
         )
 
     def reset(self) -> None:
-        self._alpha_direction = -1
+        self._speed = -abs(self._speed)
         self._alpha_percentage = 1.0
         self._sprite.image.set_alpha(ALPHA_MAX_VALUE)  # type: ignore

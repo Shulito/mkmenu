@@ -19,6 +19,11 @@ class SpritesheetAnimation(Animation):
     ) -> None:
         super().__init__()
 
+        if total_frames <= 0:
+            raise ValueError(f"total_frames has to be positive integer")
+        if fps <= 0:
+            raise ValueError(f"fps has to be positive integer")
+
         sprite_sheet = load_image(
             file_path=file_path, has_transparency=has_transparency
         )
