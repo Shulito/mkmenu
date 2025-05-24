@@ -7,6 +7,9 @@ FPS: Final[int] = 60
 
 BACKGROUND_TOP_LEFT_COORD: Final[Tuple[int, int]] = (0, 0)
 
+ALPHA_MIN_VALUE: Final[int] = 0
+ALPHA_MAX_VALUE: Final[int] = 255
+
 # Display constants
 SUPPORTED_RESOLUTIONS: Final[List[Tuple[int, int]]] = [
     (416, 270),
@@ -22,10 +25,27 @@ INTERNAL_SCREEN_SIZE: Final[Tuple[int, int]] = SUPPORTED_RESOLUTIONS[0]
 SDL_VIDEO_CENTERED_ENV_VAR: Final[str] = "SDL_VIDEO_CENTERED"
 SDL_VIDEO_CENTERED_TRUE: Final[str] = "1"
 
+# Screen constants
+MAIN_MENU_SCREEN_NAME: Final[str] = "MAIN_MENU"
+CHARACTER_SELECTION_SCREEN_NAME: Final[str] = "CHARACTER_SELECTION"
+
 # Main Menu constants
 MAIN_MENU_BLINK_TOP_LEFT_COORD: Final[Tuple[int, int]] = (159, 225)
-
 BLINK_SPEED: Final[int] = 3
+
+# Character Selection constants
+CHARACTER_SELECTION_PORTRAITS: Final[List[Tuple[int, int, str]]] = [
+    (520, 439, "johnny"),
+    (587, 439, "kano"),
+    (721, 439, "subzero"),
+    (788, 439, "sonya"),
+    (587, 521, "raiden"),
+    (654, 521, "liukang"),
+    (721, 521, "scorpion"),
+]
+
+# Notification constants
+EXTRA_DATA_SCREEN_NAME: Final[str] = "SCREEN_NAME"
 
 # Content constants
 ASSETS_FOLDER_PATH: Final[str] = path.abspath(

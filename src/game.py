@@ -2,8 +2,9 @@ import pygame
 
 from src.constants import FPS
 from src.display import Display
-from src.game_screen import GameScreen, MainMenuScreen
 from src.interactions import Action, get_interactions
+from src.notifications import NotificationSink
+from src.screens import ScreenManager
 
 
 class Game:
@@ -13,7 +14,8 @@ class Game:
         self._clock: pygame.time.Clock = pygame.time.Clock()
 
         self._display: Display = Display()
-        self._game_screen: GameScreen = MainMenuScreen()
+        self._notification_sink = NotificationSink()
+        self._screen_manager = ScreenManager(self._notification_sink)
 
     def __del__(self) -> None:
         pygame.quit()
@@ -30,12 +32,14 @@ class Game:
                     break
 
                 self._display.handle_interaction(interaction)
-                self._game_screen.handle_interaction(interaction)
+                self._screen_manager.handle_interaction(interaction)
 
             if not running:
                 break
 
-            self._game_screen = self._game_screen.next_game_screen()
-            self._game_screen.update(delta_ms)
-            self._game_screen.draw(self._display)
+            for notification in self._notification_sink.read_all():
+                self._screen_manager.handle_notification(notification)
+
+            self._screen_manager.update(delta_ms)
+            self._screen_manager.draw(self._display)
             self._display.update()
