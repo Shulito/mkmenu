@@ -10,6 +10,7 @@ class Action(Enum):
     QUIT = 0
     INCREASE_DISPLAY_SIZE = 1
     DECREASE_DISPLAY_SIZE = 2
+    MENU_ACCEPT = 3
 
 
 @dataclass(frozen=True)
@@ -30,6 +31,8 @@ KEY_TO_ACTION_MAPPING: Final[Dict[int, Action]] = {
     pygame.K_KP_PLUS: Action.INCREASE_DISPLAY_SIZE,
     pygame.K_MINUS: Action.DECREASE_DISPLAY_SIZE,
     pygame.K_KP_MINUS: Action.DECREASE_DISPLAY_SIZE,
+    pygame.K_RETURN: Action.MENU_ACCEPT,
+    pygame.K_KP_ENTER: Action.MENU_ACCEPT,
 }
 
 
