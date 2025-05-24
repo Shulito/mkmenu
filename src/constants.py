@@ -35,13 +35,13 @@ BLINK_SPEED: Final[int] = 3
 
 # Character Selection constants
 CHARACTER_SELECTION_PORTRAITS: Final[List[Tuple[int, int, str]]] = [
-    (520, 439, "johnny"),
-    (587, 439, "kano"),
-    (721, 439, "subzero"),
-    (788, 439, "sonya"),
-    (587, 521, "raiden"),
-    (654, 521, "liukang"),
-    (721, 521, "scorpion"),
+    (42, 54, "johnny"),
+    (109, 54, "kano"),
+    (243, 54, "subzero"),
+    (310, 54, "sonya"),
+    (109, 136, "raiden"),
+    (176, 136, "liukang"),
+    (243, 136, "scorpion"),
 ]
 
 # Notification constants
