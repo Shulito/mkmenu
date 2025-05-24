@@ -1,5 +1,6 @@
 from typing import Tuple
 
+from src.animations import AlphaAnimation
 from src.assets import load_sprite
 from src.base import GameObject
 from src.display import Display
@@ -16,12 +17,25 @@ class CharacterPortrait(GameObject):
     ) -> None:
         super().__init__(notification_sink)
 
-        self._portrait_sprite = load_sprite(
-            file_path=file_path, top_left_coord=top_left_coord, has_transparency=False
+        self._portrait_animation = AlphaAnimation(
+            sprite=load_sprite(
+                file_path=file_path,
+                top_left_coord=top_left_coord,
+                has_transparency=False,
+            ),
+            speed=3,
         )
 
+        self._selected = False
+
+    def select(self) -> None:
+        self._selected = True
+
+    def deselect(self) -> None:
+        self._selected = False
+
     def draw(self, display: Display) -> None:
-        display.draw(self._portrait_sprite)
+        self._portrait_animation.draw(display)
 
     def handle_interaction(self, interaction: Interaction) -> None:
         return

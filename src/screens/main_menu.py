@@ -1,11 +1,8 @@
 from os import path
 
-import pygame
-
+from src.animations import AlphaAnimation
 from src.assets import load_sprite
 from src.constants import (
-    ALPHA_MAX_VALUE,
-    ALPHA_MIN_VALUE,
     BLINK_SPEED,
     CHARACTER_SELECTION_SCREEN_NAME,
     EXTRA_DATA_SCREEN_NAME,
@@ -27,13 +24,14 @@ class MainMenuScreen(GameScreen):
             ),
         )
 
-        self._blink_sprite = load_sprite(
-            file_path=path.join(MAIN_MENU_FOLDER_PATH, "blink.png"),
-            top_left_coord=MAIN_MENU_BLINK_TOP_LEFT_COORD,
+        self._blink_animation = AlphaAnimation(
+            sprite=load_sprite(
+                file_path=path.join(MAIN_MENU_FOLDER_PATH, "blink.png"),
+                top_left_coord=MAIN_MENU_BLINK_TOP_LEFT_COORD,
+            ),
+            speed=BLINK_SPEED,
         )
-
-        self._blink_direction = -1
-        self._blink_percentage = 1.0
+        self._blink_animation.running = True
 
     def handle_interaction(self, interaction: Interaction) -> None:
         if interaction.action == Action.MENU_ACCEPT and interaction.just_pressed:
@@ -47,26 +45,11 @@ class MainMenuScreen(GameScreen):
             )
 
     def update(self, delta_ms: float) -> None:
-        self._blink_percentage += BLINK_SPEED * self._blink_direction * delta_ms
-
-        if self._blink_percentage <= 0.0:
-            self._blink_percentage = 0.0
-            self._blink_direction = 1
-        elif self._blink_percentage >= 1.0:
-            self._blink_percentage = 1.0
-            self._blink_direction = -1
-
-        self._blink_sprite.image.set_alpha(  # type: ignore
-            int(
-                pygame.math.lerp(
-                    ALPHA_MIN_VALUE, ALPHA_MAX_VALUE, self._blink_percentage
-                )
-            )
-        )
+        self._blink_animation.update(delta_ms)
 
     def draw(self, display: Display) -> None:
         super().draw(display)
-        display.draw(self._blink_sprite)
+        self._blink_animation.draw(display)
 
     def handle_notification(self, notification: Notification) -> None:
         return
