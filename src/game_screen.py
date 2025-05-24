@@ -1,15 +1,13 @@
 from abc import ABC, abstractmethod
 from os import path
-from typing import Tuple
 
 import pygame.sprite
 
 from src.assets import load_image
 from src.constants import (
+    BACKGROUND_TOP_LEFT_COORD,
     BLINK_SPEED,
-    CHARACTER_SELECTION_BACKGROUND_TOP_LEFT_COORD,
     CHARACTER_SELECTION_FOLDER_PATH,
-    MAIN_MENU_BACKGROUND_TOP_LEFT_COORD,
     MAIN_MENU_BLINK_TOP_LEFT_COORD,
     MAIN_MENU_FOLDER_PATH,
 )
@@ -19,16 +17,14 @@ from src.interfaces import GameObject
 
 
 class GameScreen(GameObject, ABC):
-    def __init__(
-        self, background_file_path: str, top_left_coord: Tuple[int, int]
-    ) -> None:
+    def __init__(self, background_file_path: str) -> None:
         self._background_sprite = pygame.sprite.Sprite()
         self._background_sprite.image = load_image(
             file_path=background_file_path,
             has_transparency=False,
         )
         self._background_sprite.rect = self._background_sprite.image.get_rect(
-            topleft=top_left_coord
+            topleft=BACKGROUND_TOP_LEFT_COORD
         )
 
     def draw(self, display: Display) -> None:
@@ -43,7 +39,6 @@ class MainMenuScreen(GameScreen):
     def __init__(self) -> None:
         super().__init__(
             background_file_path=path.join(MAIN_MENU_FOLDER_PATH, "background.png"),
-            top_left_coord=MAIN_MENU_BACKGROUND_TOP_LEFT_COORD,
         )
 
         self._blink_sprite = pygame.sprite.Sprite()
@@ -95,7 +90,6 @@ class CharacterSelectionScreen(GameScreen):
             background_file_path=path.join(
                 CHARACTER_SELECTION_FOLDER_PATH, "background.png"
             ),
-            top_left_coord=CHARACTER_SELECTION_BACKGROUND_TOP_LEFT_COORD,
         )
 
     def handle_interaction(self, interaction: Interaction) -> None:
