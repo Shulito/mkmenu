@@ -16,3 +16,9 @@ To execute the game, run `start.bat`.
 ## In-game actions
 
 Press `+` or `-` to increase/decrease window size.
+
+Press `Esc` or click on the `X` button on the windows to close it.
+
+Press `Enter` to skip the main screen.
+
+Use the `->`, `<-`, `D` or `A` to change the selected character.
