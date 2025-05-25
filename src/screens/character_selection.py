@@ -65,19 +65,28 @@ class CharacterSelectionScreen(GameScreen):
         )
 
         self._selected_character_idx = 0
-        self._characters[self._selected_character_idx].portrait.select()
+
+        character = self._characters[self._selected_character_idx]
+        character.portrait.select()
+        character.idle_animation.running = True
+
         self._selection_box.rect.center = self._characters[  # type: ignore
             self._selected_character_idx
         ].portrait.rect.center
 
     def _move_selected_character(self, value: int) -> None:
-        self._characters[self._selected_character_idx].portrait.deselect()
-        self._characters[self._selected_character_idx].idle_animation.reset()
+        character = self._characters[self._selected_character_idx]
+        character.portrait.deselect()
+        character.idle_animation.running = False
+        character.idle_animation.reset()
 
         self._selected_character_idx = (self._selected_character_idx + value) % len(
             self._characters
         )
-        self._characters[self._selected_character_idx].portrait.select()
+
+        character = self._characters[self._selected_character_idx]
+        character.portrait.select()
+        character.idle_animation.running = True
 
         self._selection_box.rect.center = self._characters[  # type: ignore
             self._selected_character_idx
@@ -90,8 +99,10 @@ class CharacterSelectionScreen(GameScreen):
             self._move_selected_character(-1)
 
     def update(self, delta: float) -> None:
-        self._characters[self._selected_character_idx].portrait.update(delta)
-        self._characters[self._selected_character_idx].idle_animation.update(delta)
+        character = self._characters[self._selected_character_idx]
+        character.portrait.update(delta)
+        character.idle_animation.update(delta)
+
         self._selection_box.update(delta)
 
     def draw(self, display: Display) -> None:
