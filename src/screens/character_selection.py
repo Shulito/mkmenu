@@ -63,6 +63,7 @@ class CharacterSelectionScreen(GameScreen):
             total_frames=BOX_ANIMATION_TOTAL_FRAMES,
             fps=BOX_ANIMATION_FPS,
         )
+        self._selection_box.running = True
 
         self._selected_character_idx = 0
 
@@ -70,9 +71,7 @@ class CharacterSelectionScreen(GameScreen):
         character.portrait.select()
         character.idle_animation.running = True
 
-        self._selection_box.rect.center = self._characters[  # type: ignore
-            self._selected_character_idx
-        ].portrait.rect.center
+        self._selection_box.rect.center = character.portrait.rect.center  # type: ignore
 
     def _move_selected_character(self, value: int) -> None:
         character = self._characters[self._selected_character_idx]
@@ -88,9 +87,7 @@ class CharacterSelectionScreen(GameScreen):
         character.portrait.select()
         character.idle_animation.running = True
 
-        self._selection_box.rect.center = self._characters[  # type: ignore
-            self._selected_character_idx
-        ].portrait.rect.center
+        self._selection_box.rect.center = character.portrait.rect.center  # type: ignore
 
     def handle_interaction(self, interaction: Interaction) -> None:
         if interaction.action == Action.MENU_RIGHT and interaction.just_pressed:
