@@ -35,7 +35,7 @@ class MainMenuScreen(GameScreen):
 
     def handle_interaction(self, interaction: Interaction) -> None:
         if interaction.action == Action.MENU_ACCEPT and interaction.just_pressed:
-            self._notification_sink.write(
+            self._notification_sink.add(
                 Notification(
                     type=NotificationType.CHANGE_SCREEN,
                     extra_data={

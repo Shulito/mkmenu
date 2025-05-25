@@ -17,7 +17,7 @@ class NotificationSink:
     def __init__(self) -> None:
         self._notifications: List[Notification] = []
 
-    def write(self, notification: Notification) -> None:
+    def add(self, notification: Notification) -> None:
         self._notifications.append(notification)
 
     def read_all(self) -> List[Notification]:
