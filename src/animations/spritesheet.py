@@ -61,6 +61,9 @@ class SpritesheetAnimation(Animation):
         display.draw(self._sprite)
 
     def update(self, delta: float) -> None:
+        if not self.running:
+            return
+
         self._accumulated_deltas += delta
 
         if self._accumulated_deltas >= self._deltas_per_frame:
