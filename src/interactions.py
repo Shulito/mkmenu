@@ -3,7 +3,6 @@ from enum import Enum
 from typing import Dict, Final, Set
 
 import pygame
-from pygame.key import ScancodeWrapper
 
 
 class Action(Enum):
@@ -42,25 +41,6 @@ KEY_TO_ACTION_MAPPING: Final[Dict[int, Action]] = {
 }
 
 
-def _add_interactions(
-    interactions: Set[Interaction],
-    keys: ScancodeWrapper,
-    being_pressed: bool = False,
-    just_pressed: bool = False,
-    just_released: bool = False,
-) -> None:
-    for key in KEY_TO_ACTION_MAPPING.keys():
-        if keys[key]:
-            interactions.add(
-                Interaction(
-                    action=KEY_TO_ACTION_MAPPING[key],
-                    being_pressed=being_pressed,
-                    just_pressed=just_pressed,
-                    just_released=just_released,
-                )
-            )
-
-
 def get_interactions() -> Set[Interaction]:
     interactions = set()
 
@@ -68,22 +48,31 @@ def get_interactions() -> Set[Interaction]:
         if event.type in EVENT_TO_ACTION_MAPPING:
             interactions.add(Interaction(action=EVENT_TO_ACTION_MAPPING[event.type]))
 
-    _add_interactions(
-        interactions=interactions,
-        keys=pygame.key.get_pressed(),
-        being_pressed=True,
-    )
+    keys_being_pressed = pygame.key.get_pressed()
+    keys_just_pressed = pygame.key.get_just_pressed()
+    keys_just_released = pygame.key.get_just_released()
 
-    _add_interactions(
-        interactions=interactions,
-        keys=pygame.key.get_just_pressed(),
-        just_pressed=True,
-    )
-
-    _add_interactions(
-        interactions=interactions,
-        keys=pygame.key.get_just_released(),
-        just_released=True,
-    )
+    for key in KEY_TO_ACTION_MAPPING.keys():
+        if keys_being_pressed[key]:
+            interactions.add(
+                Interaction(
+                    action=KEY_TO_ACTION_MAPPING[key],
+                    being_pressed=True,
+                )
+            )
+        if keys_just_pressed[key]:
+            interactions.add(
+                Interaction(
+                    action=KEY_TO_ACTION_MAPPING[key],
+                    just_pressed=True,
+                )
+            )
+        if keys_just_released[key]:
+            interactions.add(
+                Interaction(
+                    action=KEY_TO_ACTION_MAPPING[key],
+                    just_released=True,
+                )
+            )
 
     return interactions
