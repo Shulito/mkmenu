@@ -66,7 +66,7 @@ class SpritesheetAnimation(Animation):
 
         self._accumulated_deltas += delta
 
-        if self._accumulated_deltas >= self._deltas_per_frame:
+        while self._accumulated_deltas >= self._deltas_per_frame:
             self._current_frame = (self._current_frame + 1) % len(self._images)
             self._sprite.image = self._images[self._current_frame]
-            self._accumulated_deltas = 0.0
+            self._accumulated_deltas -= self._deltas_per_frame
